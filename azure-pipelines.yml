@@ -45,6 +45,14 @@ stages:
       inputs:
         codeCoverageTool: 'cobertura'
         summaryFileLocation: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(e78f5ea0-bc84-42ba-8122-2a20415a6d00)'
+    appType: 'webAppLinux'
+    WebAppName: 'lakeview'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/Huxley2.zip'
+    RuntimeStack: 'DOTNETCORE|3.1'
     - task: DotNetCoreCLI@2
       displayName: "Publish Huxley 2 package"
       env:
