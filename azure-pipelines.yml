@@ -45,38 +45,13 @@ stages:
       inputs:
         codeCoverageTool: 'cobertura'
         summaryFileLocation: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Free Trial(e78f5ea0-bc84-42ba-8122-2a20415a6d00)'
-    appType: 'webAppLinux'
-    WebAppName: 'lakeview'
-    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/Huxley2.zip'
-    RuntimeStack: 'DOTNETCORE|3.1'
-    - task: DotNetCoreCLI@2
-      displayName: "Publish Huxley 2 package"
-      env:
-        DOTNET_CLI_TELEMETRY_OPTOUT: true
-        DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-      inputs:
-        command: 'publish'
-        publishWebProjects: true
-        projects: '**/Huxley2.csproj'
-        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Huxley 2 artefact'
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
     - task: AzureRmWebAppDeployment@4
-      displayName: 'Deploy Huxley 2 to Azure web app service'
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'Free Trial(e78f5ea0-bc84-42ba-8122-2a20415a6d00)'
+        azureSubscription: 'Azure subscription 1(ab7bef83-a68d-438a-8d49-b2e42b8bc6a8)'
         appType: 'webAppLinux'
-        WebAppName: 'huxley2'
+        WebAppName: 'lakeview'
         packageForLinux: '$(Build.ArtifactStagingDirectory)/**/Huxley2.zip'
         RuntimeStack: 'DOTNETCORE|3.1'
-
-# DOTNET_SKIP_FIRST_TIME_EXPERIENCE removed in Core 3 will return hopefully
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
